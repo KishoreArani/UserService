@@ -43,11 +43,11 @@ public class UserService {
 
     public User signUp(String email, String password, String name) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
-
-        if (optionalUser.isPresent()) {
-            //user is already present in the DB, so no need to signup
-            return optionalUser.get();
-        }
+//
+//        if (optionalUser.isPresent()) {
+//            //user is already present in the DB, so no need to signup
+//            return optionalUser.get();
+//        }
 
         User user = new User();
         user.setEmail(email);
@@ -57,9 +57,9 @@ public class UserService {
         //Once the signup is complete, send a message to Kafka for sending an email to the User.
         SendEmailDto sendEmailDto = new SendEmailDto();
         sendEmailDto.setTo(user.getEmail());
-        sendEmailDto.setFrom("admin@scaler.com");
-        sendEmailDto.setSubject("Welcome to Scaler");
-        sendEmailDto.setBody("Thanks for joining Scaler");
+        sendEmailDto.setFrom("admin@userservices.com");
+        sendEmailDto.setSubject("Welcome to UserServices");
+        sendEmailDto.setBody("Thanks for joining UserServices");
 
         try {
             kafkaProducerClient.sendMessage("sendEmail", objectMapper.writeValueAsString(sendEmailDto));
